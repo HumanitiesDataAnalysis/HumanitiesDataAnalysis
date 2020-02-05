@@ -1,9 +1,9 @@
 Package: HumanitiesDataAnalysis
 Type: Package
-Title: Data and Code to support a graduate class at New York University
+Title: Data and Code for Teaching Humanities Data Analysis
 Version: 1.0.0
 Author: Benjamin Schmidt
-Maintainer: bmschmidt@gmail.com
+Maintainer: Benjamin Schmidt <bmschmidt@gmail.com>
 Description: This is linked to both course at benschmidt.org/WWD20 and the text at benschmidt.org/HDA
 License: MIT
 Encoding: UTF-8
