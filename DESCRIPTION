@@ -11,4 +11,5 @@ LazyData: true
 Imports:
   dplyr,
   tidytext,
-  stringr
+  stringr,
+  tidyverse
