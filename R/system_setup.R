@@ -30,3 +30,12 @@ download_problem_sets = function() {
     message("You've downloaded all the problem sets already.")
   }
 }
+
+#' Update the Humanities Data Analysis package.
+#'
+#' @return Nothing
+#' @export
+#'
+update_HDA = function() {
+  remotes::install_github("HumanitiesDataAnalysis/HumanitiesDataAnalysis")
+}
