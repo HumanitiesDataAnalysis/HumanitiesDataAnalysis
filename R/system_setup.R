@@ -14,15 +14,16 @@ install_custom_markdown_template = function () {
 #'
 download_problem_sets = function() {
   req <- httr::GET("https://api.github.com/repos/HumanitiesDataAnalysis/book/git/trees/master?recursive=1")
-  stop_for_status(req)
-  filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
-  sets = filelist[grepl("problem.*.Rmd", filelist)]
+  httr::stop_for_status(req)
+  filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)
+  sets = filelist[grepl("extracted_problem.*.Rmd", filelist)]
   downloads = FALSE
   lapply(sets, function(set) {
     if (!file.exists(set)) {
       downloads <<- TRUE
       url = stringr::str_glue("https://raw.githubusercontent.com/HumanitiesDataAnalysis/book/master/{set}")
       message(stringr::str_glue("Downloading {set} to current directory."))
+      set = str_replace(set, ".*/", "")
       download.file(url, set, quiet = TRUE)
     }
   })
@@ -36,6 +37,6 @@ download_problem_sets = function() {
 #' @return Nothing
 #' @export
 #'
-update_HDA = function() {
-  remotes::install_github("HumanitiesDataAnalysis/HumanitiesDataAnalysis")
+update_HDA = function(update = FALSE) {
+  remotes::install_github("HumanitiesDataAnalysis/HumanitiesDataAnalysis", update=update)
 }
