@@ -36,10 +36,10 @@ download_problem_sets = function(from = "HDA") {
     req <- httr::GET("https://api.github.com/repos/HumanitiesDataAnalysis/book/git/trees/master?recursive=1")
     httr::stop_for_status(req)
     filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)
+    sets = filelist[grepl("extracted_problem.*.Rmd", filelist)]
   } else {
     sets = readr::read_lines("http://benschmidt.org/HDA/extracted_problem_sets/manifest.txt")
   }
-  sets = filelist[grepl("extracted_problem.*.Rmd", filelist)]
   downloads = FALSE
   lapply(sets, function(set) {
     if (!file.exists(set)) {

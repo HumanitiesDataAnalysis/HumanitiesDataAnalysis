@@ -13,4 +13,7 @@ Imports:
   tidytext,
   stringr,
   tidyverse,
-  httr
+  httr,
+  RSQLite
+Remotes:
+  HumanitiesDataAnalysis/hathidy
