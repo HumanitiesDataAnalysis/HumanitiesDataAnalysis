@@ -25,5 +25,5 @@ pleiades_db = function() {
 #'
 extract_SOTUs = function() {
   f = system.file("extdata/SOTUS.zip", package="HumanitiesDataAnalysis")
-unzip(f, exdir = ".", overwrite = FALSE, )
+  suppressWarnings(unzip(f, exdir = ".", overwrite = FALSE))
 }

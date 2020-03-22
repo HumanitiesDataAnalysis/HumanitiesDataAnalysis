@@ -15,7 +15,8 @@ Imports:
   tidyverse,
   httr,
   RSQLite,
-  mapproj,
-  
+  ggrepel
+Recommends:
+  mapproj
 Remotes:
   HumanitiesDataAnalysis/hathidy
