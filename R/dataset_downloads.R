@@ -16,6 +16,21 @@ pleiades_db = function() {
 }
 
 
+#' Get State of the union addresses
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' get_recent_SOTUs() %>% filter(president == "Ronald Reagan")
+get_recent_SOTUs = function(min_year = 1981) {
+  extract_SOTUs()
+  list.files("SOTUS", full.names = TRUE) %>%
+    keep(~.x %>% str_extract("[0-9]{4}") %>% as.numeric() >= min_year) %>%
+    map_dfr(read_tokens) %>%
+    mutate(year = as.numeric(filename)) %>%
+    inner_join(presidents)
+}
 #' Extract State of the Union addresses into a local directory.
 #'
 #' @return

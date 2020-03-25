@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+
 read_tokens <- function(filename, ...) {
   read_lines(filename) %>%
     tibble(text = .) %>%
@@ -140,7 +141,12 @@ add_chunks <- function(data, count = NULL, chunk_length = 2000) {
 #' @param count The unquoted variable storing the count.
 #'
 #' @return A data_frame with a column tfidf added.
+#' @example get_recent_SOTUs() %>% group_by(president, word) %>%
+#'  summarize(count=n()) %>%
+#'  summarize_tf_idf(word, count) %>%
+#'  arrange(-.tf_idf)
 #' @export
+#'
 summarize_tf_idf <- function(data, word, count = rep(1, n())) {
   token <- enquo(word)
   count <- enquo(count)

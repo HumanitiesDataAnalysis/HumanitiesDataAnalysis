@@ -14,9 +14,12 @@ Imports:
   stringr,
   tidyverse,
   httr,
-  RSQLite,
-  ggrepel
+  RSQLite
 Recommends:
-  mapproj
+  mapproj,
+  rgeos,
+  ggrepel,
+  rnaturalearth
 Remotes:
   HumanitiesDataAnalysis/hathidy
+  HumanitiesDataAnalysis/TEIdy
