@@ -34,9 +34,10 @@ read_tokens <- function(filename, ...) {
 #' The direction of the Dunning scores are encoded with a sign.
 #' Strongly positive numbers are over-represented; strongly negative numbers are under-represented.
 #' Also included are unadjusted p-values assuming a single degree of freedom, and a significance test of the difference the Holm-Sidak
-#' correction ranked by decreasing word frequency. (Holm-Sidak )
+#' correction ranked by decreasing word frequency. (Holm-Sidak)
 #' @export
 #'
+
 summarize_llr <- function(data, token, count = rep(1, n()), sig_thresh = 0.05) {
   token <- enquo(token)
   count <- enquo(count)
@@ -73,7 +74,7 @@ summarize_llr <- function(data, token, count = rep(1, n()), sig_thresh = 0.05) {
     # Use negative signage to indicate *under-represented* words.
     mutate(score = ifelse((count.y - exp.y) > 0, -score, score)) %>%
     # Throw away some of the on-the-way calculations.
-    select(!!!groupings, !!token, dunning_llr = score, dunning_p = p, sig) %>%
+    select(!!!groupings, !!token, .dunning_llr = score, .dunning_p = p, .dunning_significance = sig) %>%
     ungroup()
 }
 
@@ -82,7 +83,7 @@ summarize_pmi <- function(data, token, count = rep(1, n()), all_fields = FALSE) 
   count <- enquo(count)
   groupings <- groups(data)
   if (all_fields) {groups = quos(.pmi, .p_share, .count, .word_share, .total_words, .doc_total)} else {
-    groups = quos(.pmi, .p_share)
+    groups = quos(.pmi, .p_share, .count)
   }
   data %>%
     group_by(!!!groupings, !!token) %>%
@@ -163,6 +164,7 @@ summarize_tf_idf <- function(data, word, count = rep(1, n())) {
     group_by(!!!groupings) %>%
     mutate(doc_total = sum(.count)) %>%
     group_by(!!token, add = TRUE) %>%
-    summarize(tf = sum(.count) / doc_total[1], idf = idf[1], tfidf = tf * idf) %>%
+    summarize(tf = sum(.count) / doc_total[1], idf = idf[1], .tf_idf = tf * idf) %>%
+    select(-tf, -idf) %>%
     ungroup()
 }

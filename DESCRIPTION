@@ -19,7 +19,8 @@ Recommends:
   mapproj,
   rgeos,
   ggrepel,
-  rnaturalearth
+  rnaturalearth,
+  textdata
 Remotes:
-  HumanitiesDataAnalysis/hathidy
+  HumanitiesDataAnalysis/hathidy,
   HumanitiesDataAnalysis/TEIdy
