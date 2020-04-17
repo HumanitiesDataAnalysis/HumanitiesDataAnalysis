@@ -4,7 +4,7 @@ Title: Data and Code for Teaching Humanities Data Analysis
 Version: 1.0.0
 Author: Benjamin Schmidt
 Maintainer: Benjamin Schmidt <bmschmidt@gmail.com>
-Description: This is linked to both course at benschmidt.org/WWD20 and the text at benschmidt.org/HDA
+Description: This is linked to both course at benschmidt.org/WWD21 and the text at benschmidt.org/HDA
 License: MIT
 Encoding: UTF-8
 LazyData: true
@@ -23,4 +23,5 @@ Recommends:
   textdata
 Remotes:
   HumanitiesDataAnalysis/hathidy,
-  HumanitiesDataAnalysis/TEIdy
+  HumanitiesDataAnalysis/TEIdy,
+  ropensci-archive/hathi

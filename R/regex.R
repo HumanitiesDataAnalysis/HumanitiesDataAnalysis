@@ -8,6 +8,6 @@
 #' @examples
 dictionary_search = function(regex_string) {
   data(wordlist)
-  return(wordlist[stringr::str_detect(wordlist, regex_string)])
+  return(paste(wordlist[stringr::str_detect(wordlist, regex_string)][1:10], collapse = ", "))
 }
 

@@ -50,8 +50,8 @@ download_problem_sets = function(from = "HDA") {
         url = stringr::str_glue("http://benschmidt.org/HDA/extracted_problem_sets/{set}")
       }
       message(stringr::str_glue("Downloading {set} to current directory."))
-      set = str_replace(set, ".*/", "")
-      download.file(url, set, quiet = TRUE)
+      set = stringr::str_replace(set, ".*/", "")
+      download.file(url, set, quiet = TRUE, )
     }
   })
   if (downloads == FALSE) {
