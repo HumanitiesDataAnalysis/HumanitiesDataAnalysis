@@ -30,33 +30,23 @@ KEEP_GOING = function(...) {
 #' @return Nothing
 #' @export
 #'
-download_problem_sets = function(from = "HDA") {
-
-  if (from == 'github') {
-    req <- httr::GET("https://api.github.com/repos/HumanitiesDataAnalysis/book/git/trees/master?recursive=1")
-    httr::stop_for_status(req)
-    filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)
-    sets = filelist[grepl("extracted_problem.*.Rmd", filelist)]
-  } else {
-    sets = readr::read_lines("http://benschmidt.org/HDA/extracted_problem_sets/manifest.txt")
+download_problem_sets = function() {
+  req <- httr::GET("https://hdf.benschmidt.org/R/toc.json?min=1")
+  httr::stop_for_status(req)
+  cont = httr::content(req) |> purrr::map_dfr(tibble::as_tibble) |> dplyr::filter(level==1)
+  cont$number = 1:nrow(cont)
+  print(cont |> dplyr::select(number, title))
+  name <- readline(prompt=stringr::str_glue("Enter the NUMBER to download to the current folder: "))
+  f = as.numeric(name)
+  if (is.na(f)) {stop("You must supply the number next to the filename")}
+  slug = cont$href[f] |> stringr::str_sub(2)
+  path = stringr::str_glue("{slug}_exercises.Rmd")
+  remote = stringr::str_glue("https://hdf.benschmidt.org/R/{slug}/exercises.Rmd")
+  message(c(path, remote))
+  if (file.exists(path)) {
+    stop("You already have a file at '", path, "'. Please move or rename it.")
   }
-  downloads = FALSE
-  lapply(sets, function(set) {
-    if (!file.exists(set)) {
-      downloads <<- TRUE
-      if (from == "github") {
-        url = stringr::str_glue("https://raw.githubusercontent.com/HumanitiesDataAnalysis/book/master/{set}")
-      } else {
-        url = stringr::str_glue("http://benschmidt.org/HDA/extracted_problem_sets/{set}")
-      }
-      message(stringr::str_glue("Downloading {set} to current directory."))
-      set = stringr::str_replace(set, ".*/", "")
-      download.file(url, set, quiet = TRUE, )
-    }
-  })
-  if (downloads == FALSE) {
-    message("You've downloaded all the problem sets already.")
-  }
+  download.file(remote, path, mode="wb")
 }
 
 #' Update the Humanities Data Analysis package.
