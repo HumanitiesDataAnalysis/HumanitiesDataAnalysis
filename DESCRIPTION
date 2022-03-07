@@ -14,7 +14,8 @@ Imports:
   stringr,
   tidyverse,
   httr,
-  RSQLite
+  RSQLite,
+  duckdb
 Recommends:
   mapproj,
   rgeos,

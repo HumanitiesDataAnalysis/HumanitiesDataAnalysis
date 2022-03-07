@@ -12,7 +12,21 @@
 #' pleaides_db %>% tbl("names") %>% filter(title == "Jerusalem")
 #'
 pleiades_db = function() {
-  RSQLite::dbConnect(RSQLite::SQLite(), system.file("extdata/pleiades.sqlite3", package="HumanitiesDataAnalysis"))
+  if (!file.exists("pleaides.duckdb")) {
+    for (fname in c("locations", "places", "names")) {
+      download.file(paste0("https://benschmidt.org/files/parquet/pleiades_", fname, ".parquet"), paste0(fname, ".parquet"))
+    }
+    con = DBI::dbConnect(duckdb::duckdb(), dbdir="pleaides.duckdb", read_only=FALSE)
+    DBI::dbExecute(con, "CREATE TABLE names AS SELECT * FROM 'names.parquet'")
+    DBI::dbExecute(con, "CREATE TABLE places AS SELECT * FROM 'places.parquet'")
+    DBI::dbExecute(con, "CREATE TABLE locations AS SELECT * FROM 'locations.parquet'")
+    DBI::dbDisconnect(con)
+    file.remove("names.parquet")
+    file.remove("places.parquet")
+    file.remove("locations.parquet")
+  }
+  con = DBI::dbConnect(duckdb::duckdb(), dbdir="pleaides.duckdb", read_only=TRUE)
+  return(con)
 }
 
 
